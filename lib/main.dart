@@ -92,35 +92,33 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: CarouselSlider.builder(
-              carouselController: _imageCarouselController,
-              itemCount: images.length,
-              options: CarouselOptions(
-                height: 200.0,
-                enableInfiniteScroll: true,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                viewportFraction: 1.0,
-                onPageChanged: (index, reason) {
-                  _titleCarouselController.animateToPage(index);
-                  _textCarouselController.animateToPage(index);
-                },
-              ),
-              itemBuilder: (context, index, realIndex) {
-                return buildCarouselItem(
-                  context,
-                  images[index],
-                  titles[index],
-                  subtitles[index],
-                  descriptions[index],
-                  index,
-                );
+          CarouselSlider.builder(
+            carouselController: _imageCarouselController,
+            itemCount: images.length,
+            options: CarouselOptions(
+              height: 200.0,
+              enableInfiniteScroll: true,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 3),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              viewportFraction: 1.0,
+              onPageChanged: (index, reason) {
+                _titleCarouselController.animateToPage(index);
+                _textCarouselController.animateToPage(index);
               },
             ),
+            itemBuilder: (context, index, realIndex) {
+              return buildCarouselItem(
+                context,
+                images[index],
+                titles[index],
+                subtitles[index],
+                descriptions[index],
+                index,
+              );
+            },
           ),
-          SizedBox(height: 20), // Adiciona um espaçamento entre os carrosséis
+          SizedBox(height: 20),
           CarouselSlider.builder(
             carouselController: _titleCarouselController,
             itemCount: titles.length,
@@ -128,7 +126,7 @@ class MyHomePage extends StatelessWidget {
               height: 50.0,
               enableInfiniteScroll: true,
               autoPlay: false,
-              viewportFraction: 0.3,
+              viewportFraction: 1.0, // Ajustado para ocupar a largura total
             ),
             itemBuilder: (context, index, realIndex) {
               return TitleSection(
@@ -137,15 +135,15 @@ class MyHomePage extends StatelessWidget {
               );
             },
           ),
-          SizedBox(height: 20), // Adiciona um espaçamento entre os carrosséis
+          SizedBox(height: 20),
           CarouselSlider.builder(
             carouselController: _textCarouselController,
             itemCount: descriptions.length,
             options: CarouselOptions(
-              height: 150.0,
+              height: MediaQuery.of(context).size.height - 270.0,
               enableInfiniteScroll: true,
               autoPlay: false,
-              viewportFraction: 0.5,
+              viewportFraction: 1.0,
             ),
             itemBuilder: (context, index, realIndex) {
               return TextSection(description: descriptions[index]);
