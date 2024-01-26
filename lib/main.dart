@@ -1,5 +1,5 @@
-import 'package:explore_o_mundo/banner_section.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:explore_o_mundo/buttonSection.dart';
 import 'package:explore_o_mundo/pages/about_us_page.dart';
 import 'package:explore_o_mundo/pages/contact_page.dart';
@@ -30,6 +30,30 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final List<String> images = [
+    'images/lake.jpeg',
+    'images/buzios.webp',
+    'images/patagonia.jpeg',
+  ];
+
+  final List<String> titles = [
+    'Oeschinen Lake Campground',
+    'Búzios, Brasil',
+    'Patagônia, Argentina',
+  ];
+
+  final List<String> subtitles = [
+    'Kandersteg, Switzerland',
+    'Praias deslumbrantes',
+    'Natureza deslumbrante',
+  ];
+
+  final List<String> descriptions = [
+    'O Lago Oeschinen fica aos pés do Blüemlisalp nos Alpes Berneses. Situado a 1.578 metros acima do nível do mar, é um dos lagos alpinos mais amplos. Um passeio de teleférico a partir de Kandersteg, seguido por meia hora de caminhada por pastagens e floresta de pinheiros, leva você ao lago, que aquece até 20 graus Celsius no verão. As atividades desfrutadas aqui incluem remo e andar no tobogã de verão.',
+    'Búzios é uma península com oito quilômetros de extensão e 23 praias, cada uma com um estilo único. Algumas são ideais para nadar, enquanto outras são conhecidas por suas ondas e são ideais para surfistas. A Rua das Pedras é uma famosa rua de paralelepípedos com lojas e restaurantes sofisticados.',
+    'A Patagônia Argentina é uma vasta região que se estende até o extremo sul da América do Sul, compartilhada pelo Chile. É conhecida por suas vastas planícies, montanhas dos Andes e glaciares. O Parque Nacional Los Glaciares, na região de Santa Cruz, é famoso pelo gigantesco Glaciar Perito Moreno, além do Fitz Roy, um pico montanhoso que atrai alpinistas.',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,13 +88,78 @@ class MyHomePage extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          BannerSection(),
+          CarouselSlider.builder(
+            itemCount: images.length,
+            options: CarouselOptions(
+              height: 200.0,
+              enableInfiniteScroll: true,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 3),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              viewportFraction: 1.0,
+            ),
+            itemBuilder: (context, index, realIndex) {
+              return buildCarouselItem(
+                context,
+                images[index],
+                titles[index],
+                subtitles[index],
+                descriptions[index],
+              );
+            },
+          ),
           TitleSection(),
           ButtonSection(),
-          TextSection(), // Adicione a seção de título aqui
+          for (var description in descriptions)
+            TextSection(description: description),
           // Adicione outras seções conforme necessário.
         ],
       ),
     );
+  }
+
+  Widget buildCarouselItem(BuildContext context, String imagePath, String title,
+      String subtitle, String description) {
+    return InkWell(
+      onTap: () {
+        // Navegue para a página correspondente à imagem clicada
+        navigateToDestinationPage(context, imagePath);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(imagePath),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void navigateToDestinationPage(BuildContext context, String imagePath) {
+    // Navegue para a página de destaque (pode ser uma página separada ou a mesma)
+    Navigator.pushNamed(context, '/destinations');
   }
 }
