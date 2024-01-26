@@ -1,9 +1,10 @@
+import 'package:explore_o_mundo/pages/destinations_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:explore_o_mundo/buttonSection.dart';
 import 'package:explore_o_mundo/pages/about_us_page.dart';
 import 'package:explore_o_mundo/pages/contact_page.dart';
-import 'package:explore_o_mundo/pages/destinations_page.dart';
+import 'package:explore_o_mundo/pages/destinationsDetailPage.dart';
 import 'package:explore_o_mundo/pages/travel_packages_page.dart';
 import 'package:explore_o_mundo/textSection.dart';
 import 'package:explore_o_mundo/title_section.dart';
@@ -159,11 +160,26 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  Widget buildCarouselItem(BuildContext context, String imagePath, String title,
-      String subtitle, String description, int index) {
+  Widget buildCarouselItem(
+    BuildContext context,
+    String imagePath,
+    String title,
+    String subtitle,
+    String description,
+    int index,
+  ) {
     return InkWell(
       onTap: () {
-        navigateToDestinationPage(context, imagePath);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DestinationDetailPage(
+              imagePath: imagePath,
+              title: title,
+              description: description,
+            ),
+          ),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -196,9 +212,5 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void navigateToDestinationPage(BuildContext context, String imagePath) {
-    Navigator.pushNamed(context, '/destinations');
   }
 }
