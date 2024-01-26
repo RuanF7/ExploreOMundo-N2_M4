@@ -8,7 +8,7 @@ class TextSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(32),
+      padding: const EdgeInsets.all(8),
       child: Text(
         description,
         softWrap: true,

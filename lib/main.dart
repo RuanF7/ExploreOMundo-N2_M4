@@ -30,6 +30,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final CarouselController _imageCarouselController = CarouselController();
+  final CarouselController _titleCarouselController = CarouselController();
+  final CarouselController _textCarouselController = CarouselController();
+
   final List<String> images = [
     'images/lake.jpeg',
     'images/buzios.webp',
@@ -86,43 +90,77 @@ class MyHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
+      body: Column(
         children: [
+          Expanded(
+            child: CarouselSlider.builder(
+              carouselController: _imageCarouselController,
+              itemCount: images.length,
+              options: CarouselOptions(
+                height: 200.0,
+                enableInfiniteScroll: true,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                viewportFraction: 1.0,
+                onPageChanged: (index, reason) {
+                  _titleCarouselController.animateToPage(index);
+                  _textCarouselController.animateToPage(index);
+                },
+              ),
+              itemBuilder: (context, index, realIndex) {
+                return buildCarouselItem(
+                  context,
+                  images[index],
+                  titles[index],
+                  subtitles[index],
+                  descriptions[index],
+                  index,
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 20), // Adiciona um espaçamento entre os carrosséis
           CarouselSlider.builder(
-            itemCount: images.length,
+            carouselController: _titleCarouselController,
+            itemCount: titles.length,
             options: CarouselOptions(
-              height: 200.0,
+              height: 50.0,
               enableInfiniteScroll: true,
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: 3),
-              autoPlayCurve: Curves.fastOutSlowIn,
-              viewportFraction: 1.0,
+              autoPlay: false,
+              viewportFraction: 0.3,
             ),
             itemBuilder: (context, index, realIndex) {
-              return buildCarouselItem(
-                context,
-                images[index],
-                titles[index],
-                subtitles[index],
-                descriptions[index],
+              return TitleSection(
+                title: titles[index],
+                subtitle: subtitles[index],
               );
             },
           ),
-          TitleSection(),
+          SizedBox(height: 20), // Adiciona um espaçamento entre os carrosséis
+          CarouselSlider.builder(
+            carouselController: _textCarouselController,
+            itemCount: descriptions.length,
+            options: CarouselOptions(
+              height: 150.0,
+              enableInfiniteScroll: true,
+              autoPlay: false,
+              viewportFraction: 0.5,
+            ),
+            itemBuilder: (context, index, realIndex) {
+              return TextSection(description: descriptions[index]);
+            },
+          ),
           ButtonSection(),
-          for (var description in descriptions)
-            TextSection(description: description),
-          // Adicione outras seções conforme necessário.
         ],
       ),
     );
   }
 
   Widget buildCarouselItem(BuildContext context, String imagePath, String title,
-      String subtitle, String description) {
+      String subtitle, String description, int index) {
     return InkWell(
       onTap: () {
-        // Navegue para a página correspondente à imagem clicada
         navigateToDestinationPage(context, imagePath);
       },
       child: Container(
@@ -159,7 +197,6 @@ class MyHomePage extends StatelessWidget {
   }
 
   void navigateToDestinationPage(BuildContext context, String imagePath) {
-    // Navegue para a página de destaque (pode ser uma página separada ou a mesma)
     Navigator.pushNamed(context, '/destinations');
   }
 }
