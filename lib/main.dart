@@ -90,7 +90,7 @@ class MyHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: [
           CarouselSlider.builder(
             carouselController: _imageCarouselController,
@@ -119,35 +119,39 @@ class MyHomePage extends StatelessWidget {
             },
           ),
           SizedBox(height: 20),
-          CarouselSlider.builder(
-            carouselController: _titleCarouselController,
-            itemCount: titles.length,
-            options: CarouselOptions(
-              height: 50.0,
-              enableInfiniteScroll: true,
-              autoPlay: false,
-              viewportFraction: 1.0, // Ajustado para ocupar a largura total
+          Expanded(
+            child: CarouselSlider.builder(
+              carouselController: _titleCarouselController,
+              itemCount: titles.length,
+              options: CarouselOptions(
+                height: 50.0,
+                enableInfiniteScroll: true,
+                autoPlay: false,
+                viewportFraction: 1.0,
+              ),
+              itemBuilder: (context, index, realIndex) {
+                return TitleSection(
+                  title: titles[index],
+                  subtitle: subtitles[index],
+                );
+              },
             ),
-            itemBuilder: (context, index, realIndex) {
-              return TitleSection(
-                title: titles[index],
-                subtitle: subtitles[index],
-              );
-            },
           ),
           SizedBox(height: 20),
-          CarouselSlider.builder(
-            carouselController: _textCarouselController,
-            itemCount: descriptions.length,
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.height - 270.0,
-              enableInfiniteScroll: true,
-              autoPlay: false,
-              viewportFraction: 1.0,
+          Expanded(
+            child: CarouselSlider.builder(
+              carouselController: _textCarouselController,
+              itemCount: descriptions.length,
+              options: CarouselOptions(
+                height: MediaQuery.of(context).size.height * 0.5,
+                enableInfiniteScroll: true,
+                autoPlay: false,
+                viewportFraction: 1.0,
+              ),
+              itemBuilder: (context, index, realIndex) {
+                return TextSection(description: descriptions[index]);
+              },
             ),
-            itemBuilder: (context, index, realIndex) {
-              return TextSection(description: descriptions[index]);
-            },
           ),
           ButtonSection(),
         ],
