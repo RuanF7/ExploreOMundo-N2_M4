@@ -46,14 +46,13 @@ ofertas da agência, tanto no aplicativo quanto no site.
 
 1 - Página inicial com carrossel de imagens dos locias, icons de destino, pacotes, contato e sobre nós, que leva as respectivas páginas. . </br>
 
-<img src="/assets/images/print2.png"  alt="Tela inicial" width='200'>
-<img src="/assets/images/print3.png"  alt="Tela inicial" width='200'> </br>
+|<img src="/assets/images/print2.png"  alt="Tela inicial" width='200'>|
+<img src="/assets/images/print3.png"  alt="Tela inicial" width='200'>| </br>
 
 2 - Carrossel de imagens e texto funcionando corretamente. </br>
 
-<img src="/Meeting/assets/buscandoImagem.png" alt="Tela de cadatro" width='200'> </br>
-
+<img src="/assets/images/print4.png"  alt="destino" width='200'> </br>
 3 - Após clicar em um destino nos banners, sendo redirecionado para a página correta. </br>
 
-<img src="/assets/images/print4.png"  alt="destino" width='200'> </br>
+
 
